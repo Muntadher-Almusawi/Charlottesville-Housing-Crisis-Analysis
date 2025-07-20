@@ -96,7 +96,7 @@ st.title("Charlottesville Housing Crisis Analysis")
 st.markdown("Understanding the City of Charlottesville's Affordable Housing Crisis")
 st.markdown("**Introduction:** Since I moved to Charlottesville in 2024 I kept hearing about the housing crisis and its affect on the community. I wanted to understand the data behind these claims and see how the housing market has changed over time. I also wanted to see who owns most in the city as and how big is theis crisis. I decided to create this dashboard to visualize the data and tell the story of how the housing market has changed in Charlottesville. I hope this dashboard will help raise awareness about the housing crisis and spark discussions about possible solutions.")
 st.markdown("Data sources: City of Charlottesville Open Data Portal")
-st.markdown("Last updated: June 2024")
+st.markdown("Data Last updated: Jule 2024")
 
 # Load all data
 @st.cache_data(show_spinner=False)
@@ -605,7 +605,7 @@ if data:
      y=income_data['Affordable Home Price (3x Income)'],
      name='Affordable Home Price (3x Income)',
      marker_color=["#1f77b4", '#1f77b4'],
-     text=['Affordbil house price for black families', 'Affordbil house price for wight families'],
+     text=['Affordable house price for black families', 'Affordable house price for wight families'],
      textposition='inside',
      textfont=dict(color='Black', size=12),
      yaxis='y2',
