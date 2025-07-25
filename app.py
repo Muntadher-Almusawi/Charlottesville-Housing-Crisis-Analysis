@@ -861,12 +861,8 @@ if data:
        # Get top 10 for charts
        top_10_owners = top_owners.head(10)
        
-       # Create horizontal bar charts
-       col1, col2 = st.columns(2)
        
-       with col1:
-           # top owners by total properties
-           fig_top_owners = px.bar(
+       fig_top_owners = px.bar(
                top_10_owners,
                x='TotalProperties',
                y='OwnerName',
@@ -876,32 +872,13 @@ if data:
                color='TotalProperties',
                color_continuous_scale='Blues',
                orientation='h'
-           )
-           fig_top_owners.update_layout(
+         )
+       fig_top_owners.update_layout(
                yaxis={'categoryorder': 'total ascending'},
                height=500
-           )
-           st.plotly_chart(fig_top_owners, use_container_width=True)
+        )
+       st.plotly_chart(fig_top_owners, use_container_width=True)
        
-       with col2:
-           # top owners by total acres
-           fig_top_acres = px.bar(
-               top_10_owners,
-               x='TotalAcres',
-               y='OwnerName',
-               title='Top 10 Owners by Total Land Area',
-               labels={'OwnerName': 'Owner Name', 'TotalAcres': 'Total Acres'},
-               text='TotalAcres',
-               color='TotalAcres',
-               color_continuous_scale='Blues',
-               orientation='h'
-           )
-           fig_top_acres.update_layout(
-               yaxis={'categoryorder': 'total ascending'},
-               height=500
-           )
-           fig_top_acres.update_traces(texttemplate='%{text:.1f}')
-           st.plotly_chart(fig_top_acres, use_container_width=True)
        
        # assessment values CHART
        if 'TotalAssessment' in top_10_owners.columns:
@@ -932,7 +909,7 @@ if data:
                    hovertemplate='%{text}<extra></extra>'
                ))
            
-           # Update layout
+           # layout
            fig_assessment.update_layout(
                title=dict(
                    text='Top 10 Property Owners by Total Assessment Value',
