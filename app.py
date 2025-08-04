@@ -94,7 +94,7 @@ st.markdown("""
 # Title
 st.title("Charlottesville Housing Crisis Analysis")
 st.markdown("Understanding the City of Charlottesville's Affordable Housing Crisis")
-st.markdown("**Introduction:** Since I moved to Charlottesville in 2024 I kept hearing about the housing crisis and its affect on the community. I wanted to understand the data behind these claims and see how the housing market has changed over time. I also wanted to see who owns most in the city as and how big is theis crisis. I decided to create this dashboard to visualize the data and tell the story of how the housing market has changed in Charlottesville. I hope this dashboard will help raise awareness about the housing crisis and spark discussions about possible solutions.")
+st.markdown("**Introduction:** Since I moved to Charlottesville in 2024 I kept hearing about the housing crisis and its affect on the community. I wanted to understand the data behind these claims and see how the housing market has changed over time. I also wanted to see who the largest property owners are in the city and how their ownership is contributing to the housing crisis. I decided to create this dashboard to visualize the data and tell the story of how the housing market has changed in Charlottesville. I hope this dashboard will help raise awareness about the housing crisis and spark discussions about possible solutions. Note: the metrics included here are for the City of Charlottesville, and do not include data points from Albemarle County.")
 st.markdown("Data sources: City of Charlottesville Open Data Portal")
 st.markdown("Data Last updated: Jule 2024")
 
