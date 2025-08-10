@@ -94,9 +94,9 @@ st.markdown("""
 # Title
 st.title("Charlottesville Housing Crisis Analysis")
 st.markdown("Understanding the City of Charlottesville's Affordable Housing Crisis")
-st.markdown("**Introduction:** Since I moved to Charlottesville in 2024 I kept hearing about the housing crisis and its affect on the community. I wanted to understand the data behind these claims and see how the housing market has changed over time. I also wanted to see who the largest property owners are in the city and how their ownership is contributing to the housing crisis. I decided to create this dashboard to visualize the data and tell the story of how the housing market has changed in Charlottesville. I hope this dashboard will help raise awareness about the housing crisis and spark discussions about possible solutions. Note: the metrics included here are for the City of Charlottesville, and do not include data points from Albemarle County.")
+st.markdown("**Introduction:** Since I moved to Charlottesville in 2024 I kept hearing about the housing crisis and its effect on the community. I wanted to understand the data behind these claims and see how the housing market has changed over time. I also wanted to see who the largest property owners are in the city and how their ownership is contributing to the housing crisis. I decided to create this dashboard to visualize the data and tell the story of how the housing market has changed in Charlottesville. I hope this dashboard will help raise awareness about the housing crisis and spark discussions about possible solutions. Note: the metrics included here are for the City of Charlottesville, and do not include data points from Albemarle County.")
 st.markdown("Data sources: City of Charlottesville Open Data Portal")
-st.markdown("Data Last updated: Jule 2024")
+st.markdown("Data Last updated: July 2024")
 
 # Load all data
 @st.cache_data(show_spinner=False)
@@ -605,7 +605,7 @@ if data:
      y=income_data['Affordable Home Price (3x Income)'],
      name='Affordable Home Price (3x Income)',
      marker_color=["#1f77b4", '#1f77b4'],
-     text=['Affordable house price for black families', 'Affordable house price for wight families'],
+     text=['Affordable house price for black families', 'Affordable house price for white families'],
      textposition='inside',
      textfont=dict(color='Black', size=12),
      yaxis='y2',
@@ -882,7 +882,6 @@ if data:
        
        # assessment values CHART
        if 'TotalAssessment' in top_owners.columns:
-           st.subheader("Who Controls The Most Valuable Real Estate?")
            
            # Function to format values in M or B
            def format_value(value):
@@ -946,7 +945,7 @@ if data:
            # layout
            fig_assessment.update_layout(
                title=dict(
-                   text='Top 10 Property Owners by Total Assessment Value',
+                   text= "Because the number of properties does not always reflect the value of the property, let's see the top 10 property owners by property value.",
                    font=dict(color='#1f77b4', size=20)
                ),
                xaxis_title='Total Assessment Value',
@@ -971,7 +970,7 @@ if data:
            fig_assessment.add_annotation(
                x=assessment_data.iloc[-1]['TotalAssessment'] * 0.8,  
                y=len(assessment_data) - 1.5,  
-               text=f"<b>Key Finding:</b><br>The top property owner controls<br><b>{top_owner_formatted}</b> in real estate value.<br>This represents an enormous concentration<br>of property wealth in a single entity.",
+               text=f"<b>Key Finding:</b><br>While the city of Charlottesville owns the highest number of properties in the city, UVA's property value is substantially higher.",
                showarrow=True,
                arrowhead=2,
                arrowsize=1,
@@ -987,10 +986,7 @@ if data:
            )
            
            st.plotly_chart(fig_assessment, use_container_width=True)
-           
-           # Add a note explaining the difference
-           st.info("📊 **Note:** This chart shows the top 10 owners ranked by total assessment VALUE, not by number of properties. Some owners with fewer but more valuable properties may appear here but not in the properties count chart above.")
-           
+                      
    except Exception as e:
        st.error(f"Error analyzing top property owners: {str(e)}")
        st.write("Available columns in parcel_details:", list(parcel_details.columns))
@@ -1053,8 +1049,8 @@ if data:
    - Home prices have increased {total_increase:.0f}% since 2000, far outpacing income growth
    - Only {affordable_pct:.1f}% of recent home sales are affordable to median-income families
    - The gap between what people earn and what homes cost keeps growing
-   - The medin home price increased by **{recent_increase:.0f}%** from 2020 to 2024 alone, making it impossible for many families to buy a home
-   - House crisis ivolves everyone, but especially impacts Black families who face a much larger affordability gap
+   - The median home price increased by **{recent_increase:.0f}%** from 2020 to 2024 alone, making it impossible for many families to buy a home
+   - Housing crisis involves everyone, but especially impacts Black families who face a much larger affordability gap
    
    **Who Controls the City:**
    - **{local_pct:.1f}%** of properties are owned by Charlottesville residents
@@ -1067,6 +1063,7 @@ if data:
    **This isn't just about numbers - it's about our community's future and who gets to call Charlottesville home.**
 
    """)
+   st.info("Note: Sales below $10,000 excluded as non-market transactions (family transfers, estates, etc.) to reflect actual housing market prices.")
 
 else:
    st.error("Unable to load data. Please check file paths and try again.")
