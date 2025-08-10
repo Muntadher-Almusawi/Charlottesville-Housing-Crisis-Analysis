@@ -970,7 +970,7 @@ if data:
            fig_assessment.add_annotation(
                x=assessment_data.iloc[-1]['TotalAssessment'] * 0.8,  
                y=len(assessment_data) - 1.5,  
-               text=f"<b>Key Finding:</b><br>While the city of Charlottesville owns the highest number of properties in the city, UVA's property value is substantially higher.",
+               text=f"<b>Key Finding:</b><br>While the city of Charlottesville owns <br> the highest number of properties in the city, <br> UVA's property value is substantially higher.",
                showarrow=True,
                arrowhead=2,
                arrowsize=1,
