@@ -881,15 +881,26 @@ if data:
        
        
        # assessment values CHART
-       if 'TotalAssessment' in top_10_owners.columns:
-           st.subheader("And Here's What Their Properties Are Really Worth")
+       if 'TotalAssessment' in top_owners.columns:
+           st.subheader("Who Controls The Most Valuable Real Estate?")
+           
+           # Function to format values in M or B
+           def format_value(value):
+               if value >= 1_000_000_000:
+                   return f"${value/1_000_000_000:.1f}B"
+               elif value >= 1_000_000:
+                   return f"${value/1_000_000:.1f}M"
+               else:
+                   return f"${value:,.0f}"
+           
+           # Get the TRUE top 10 by assessment value (not by property count)
+           top_10_by_value = top_owners.sort_values('TotalAssessment', ascending=False).head(10)
+           
+           # Sort for chart display (ascending for horizontal bar chart)
+           assessment_data = top_10_by_value.sort_values('TotalAssessment', ascending=True)
            
            # Create the figure 
            fig_assessment = go.Figure()
-           
-           # Sort data for the chart
-           assessment_data = top_10_owners.sort_values('TotalAssessment', ascending=True)
-           
            
            for i in range(len(assessment_data)):
                if i >= len(assessment_data) - 2:  # Top 2 bars
@@ -897,17 +908,40 @@ if data:
                else:
                    bar_color = 'lightgray' 
                
-               # Add each bar individually
+               # Add each bar individually with formatted text
                fig_assessment.add_trace(go.Bar(
                    x=[assessment_data.iloc[i]['TotalAssessment']],
                    y=[assessment_data.iloc[i]['OwnerName']],
                    orientation='h',
                    marker_color=bar_color,
                    showlegend=False,
-                   text=f"${assessment_data.iloc[i]['TotalAssessment']:,.0f}",
+                   text=format_value(assessment_data.iloc[i]['TotalAssessment']),
                    textposition='outside',
-                   hovertemplate='%{text}<extra></extra>'
+                   hovertemplate=f"{assessment_data.iloc[i]['OwnerName']}<br>" + 
+                                f"Value: {format_value(assessment_data.iloc[i]['TotalAssessment'])}<br>" +
+                                f"Properties: {assessment_data.iloc[i]['TotalProperties']:,}<extra></extra>"
                ))
+           
+           # Custom tick formatter for x-axis
+           def make_tickvals_and_text(max_val):
+               tickvals = []
+               ticktext = []
+               
+               if max_val > 1_000_000_000:
+                   # Use billions scale
+                   for i in range(0, int(max_val/1_000_000_000) + 1):
+                       tickvals.append(i * 1_000_000_000)
+                       ticktext.append(f"${i}B" if i > 0 else "$0")
+               else:
+                   # Use millions scale
+                   for i in range(0, int(max_val/1_000_000) + 1, 100):
+                       tickvals.append(i * 1_000_000)
+                       ticktext.append(f"${i}M" if i > 0 else "$0")
+               
+               return tickvals, ticktext
+           
+           max_assessment = assessment_data['TotalAssessment'].max()
+           tickvals, ticktext = make_tickvals_and_text(max_assessment * 1.1)
            
            # layout
            fig_assessment.update_layout(
@@ -915,24 +949,29 @@ if data:
                    text='Top 10 Property Owners by Total Assessment Value',
                    font=dict(color='#1f77b4', size=20)
                ),
-               xaxis_title='Total Assessment Value ($)',
+               xaxis_title='Total Assessment Value',
                yaxis_title='',
                height=600,
                margin=dict(l=300),
                font=dict(color='#6c757d'),
                xaxis=dict(
                    gridcolor='lightgray',
-                   tickformat='$,.0f'
+                   tickvals=tickvals,
+                   ticktext=ticktext,
+                   range=[0, max_assessment * 1.1]
                ),
                bargap=0.15,
                barmode='overlay'
            )
            
-           # Add annotation 
+           # Add annotation with properly formatted values
+           top_owner_value = assessment_data.iloc[-1]['TotalAssessment']
+           top_owner_formatted = format_value(top_owner_value)
+           
            fig_assessment.add_annotation(
                x=assessment_data.iloc[-1]['TotalAssessment'] * 0.8,  
                y=len(assessment_data) - 1.5,  
-               text="<b>Key Finding:</b><br>The top property owner by<br>assessment value controls significantly<br>more valuable real estate than all other major owners combined.<br>While the City of Charlottesville owns more properties in the city<br> by number and land size, the university dwarfs top property owners by assessed value",
+               text=f"<b>Key Finding:</b><br>The top property owner controls<br><b>{top_owner_formatted}</b> in real estate value.<br>This represents an enormous concentration<br>of property wealth in a single entity.",
                showarrow=True,
                arrowhead=2,
                arrowsize=1,
@@ -948,6 +987,9 @@ if data:
            )
            
            st.plotly_chart(fig_assessment, use_container_width=True)
+           
+           # Add a note explaining the difference
+           st.info("📊 **Note:** This chart shows the top 10 owners ranked by total assessment VALUE, not by number of properties. Some owners with fewer but more valuable properties may appear here but not in the properties count chart above.")
            
    except Exception as e:
        st.error(f"Error analyzing top property owners: {str(e)}")
