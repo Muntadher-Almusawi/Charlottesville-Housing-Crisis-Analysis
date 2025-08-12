@@ -94,7 +94,8 @@ st.markdown("""
 # Title
 st.title("Charlottesville Housing Crisis Analysis")
 st.markdown("Understanding the City of Charlottesville's Affordable Housing Crisis")
-st.markdown("**Introduction:** Since I moved to Charlottesville in 2024 I kept hearing about the housing crisis and its effect on the community. I wanted to understand the data behind these claims and see how the housing market has changed over time. I also wanted to see who the largest property owners are in the city and how their ownership is contributing to the housing crisis. I decided to create this dashboard to visualize the data and tell the story of how the housing market has changed in Charlottesville. I hope this dashboard will help raise awareness about the housing crisis and spark discussions about possible solutions. Note: the metrics included here are for the City of Charlottesville, and do not include data points from Albemarle County.")
+st.markdown("**Introduction:** Since I moved to Charlottesville in 2024 I kept hearing about the housing crisis and its effect on the community. I wanted to understand the data behind these claims and see how the housing market has changed over time. I also wanted to see who the largest property owners are in the city and how their ownership is contributing to the housing crisis. I decided to create this dashboard to visualize the data and tell the story of how the housing market has changed in Charlottesville. I hope this dashboard will help raise awareness about the housing crisis and spark discussions about possible solutions.")
+st.info("Note: the metrics included here are for the City of Charlottesville only, and do not include data points from Albemarle County.")
 st.markdown("Data sources: City of Charlottesville Open Data Portal")
 st.markdown("Data Last updated: July 2024")
 
@@ -143,39 +144,33 @@ if data:
    older_prices = sales_processed[sales_processed['Year'] >= 2020]['SaleAmount'].median()
    price_increase_pct = ((recent_prices - older_prices) / older_prices) * 100
    
-   col1, col2, col3, col4 = st.columns(4)
+   col1, col2, col3 = st.columns(3)
    with col1:
        st.metric(
-           "Median Home Price (2024)",
+           "Median Home Price in 2024",
            f"${Last_Year_median_price:,.0f}",
            f"↑ {price_increase_pct:.0f}% vs 2020",
            delta_color="inverse" 
        )
-   with col2:
-       st.metric(
-           "Affordable Price \n (Based on median income in 2023.)",
-           f"${affordable_home_price:,.0f}",
-           f"Gap: ${affordability_gap:,.0f}",
-           delta_color="off"
-       )
+   
    with col3:
        homes_affordable = len(sales_processed[(sales_processed['Year'] >= 2020) & 
                                              (sales_processed['SaleAmount'] <= affordable_home_price)])
        total_recent_sales = len(sales_processed[sales_processed['Year'] >= 2020])
        affordable_pct = (homes_affordable / total_recent_sales * 100) if total_recent_sales > 0 else 0
        st.metric(
-           "Affordable Home Sales %",
+           "Affordable Home Sales % (2020-2024)",
            f"{affordable_pct:.1f}%",
-           "Since 2020",
+           delta=None,
            delta_color="off"
        )
-   with col4:
+   with col2:
        income_needed = Last_Year_median_price / 3  # Income needed for median home
        st.metric(
-           "Income Needed for Median Home",
+           "Income Needed to Afford Median Home in 2024",
            f"${income_needed:,.0f}",
-           f"{income_needed/median_income:.1f}x median income",
-           delta_color="off"
+           f"{income_needed/median_income:.1f}x actual median income",
+           delta_color="inverse"
        )
    
    #Start the story
@@ -574,12 +569,12 @@ if data:
    st.subheader("The Reality of Income Inequality and Housing Access")
 
    st.markdown("""
-   Based on the latest data from the U.S. Census Bureau 2023, the median household income for Black families is \$**36,541** and the median household income for White families is \$**86,259**. When you look at both numbers, they are still far away from the current housing prices, but it looks more impossible for Black families to own in the city.
+   Based on the latest data from the U.S. Census Bureau 2023, the median household income in Charlottesville for Black households is \$**36,541** and the median household income for White households is \$**86,259**. While housing affordability is a challenge for all households in Charlottesville, the income disparity between Black and white households creates significantly greater barriers to homeownership for Black households.
    """)
 
    #  income disparity data
    income_data = pd.DataFrame({
-       'Family Type': ['Black Families', 'White Families'],
+       'Family Type': ['Black Household', 'White Household'],
        'Median Income': [36541, 86259],
        'Affordable Home Price (3x Income)': [109641, 258777]
    })
@@ -587,17 +582,7 @@ if data:
    # Create the chart
    fig_income = go.Figure()
 
-   # Add income bars
-   fig_income.add_trace(go.Bar(
-     x=income_data['Family Type'],
-     y=income_data['Median Income'],
-     name='Median Household Income',
-     marker_color=['gray', 'gray'],
-     text=['Median income', 'Median income'],
-     textposition='inside',
-     textfont=dict(color='Black', size=14),
-     yaxis='y'
-    ))
+   
 
    # Add affordable price bars (secondary y-axis)
    fig_income.add_trace(go.Bar(
@@ -605,9 +590,10 @@ if data:
      y=income_data['Affordable Home Price (3x Income)'],
      name='Affordable Home Price (3x Income)',
      marker_color=["#1f77b4", '#1f77b4'],
-     text=['Affordable house price for black families', 'Affordable house price for white families'],
+     text=['Based on their median income, <br> Black households can afford homes priced <br> up to $109,641',
+           'Based on their median income, <br> White households can afford homes priced <br> up to $258,777'],
      textposition='inside',
-     textfont=dict(color='Black', size=12),
+     textfont=dict(color='white', size=14),
      yaxis='y2',
      opacity=0.7
     ))
@@ -631,7 +617,7 @@ if data:
    fig_income.add_annotation(
     x=-0.3,  
     y=130000,  
-    text="<b>Black Families Reality:</b><br> Need to earn <b>$153,000</b><br>(4.1x current income)<br>to afford median home",
+    text="<b>Black Households:</b><br> With a median household income of $36,541 in 2023, <br> the average Black household would need their income to increase <br> over 4x to afford Charlottesville's median home price.",
     showarrow=True,
     arrowhead=2,
     arrowsize=1.5,
@@ -643,7 +629,7 @@ if data:
     bgcolor="rgba(255,255,255,0.9)",
     bordercolor="gray",
     borderwidth=0,
-    font=dict(size=11, color="gray"),
+    font=dict(size=14, color="gray"),
     align="left"
    )
 
@@ -651,7 +637,7 @@ if data:
    fig_income.add_annotation(
     x=1.1,  
     y=290000,  
-    text="<b>White Families Reality:</b><br>• Need to earn <b>$153,000</b><br>(1.7x current income)<br>to afford median home",
+    text="<b>White Households:</b><br> White households in Charlottesville earned <br> a median income of $86,259 <br> but would need to earn 1.7x more <br> to afford the area's median home price.",
     showarrow=True,
     arrowhead=2,
     arrowsize=1.5,
@@ -663,17 +649,17 @@ if data:
     bgcolor="rgba(255,255,255,0.9)",
     bordercolor="gray",
     borderwidth=0,
-    font=dict(size=11, color="gray"),
+    font=dict(size=14, color="gray"),
     align="left"
     )
    
    # Update layout with dual y-axis
    fig_income.update_layout(
        title=dict(
-           text='Income Inequality and Housing Affordability Gap',
+           text='Disparity in Income and Housing Affordability by Race',
            font=dict(color='#1f77b4', size=20)
        ),
-       xaxis_title='Family Demographics',
+       xaxis_title='Household Race',
        yaxis=dict(
            title='Annual Income ($)',
            side='left',
@@ -699,6 +685,8 @@ if data:
    )
 
    st.plotly_chart(fig_income, use_container_width=True)
+   st.info("Note: The affordable home prices shown are based on the traditional 3x income rule, which is a common benchmark for housing affordability. However, in today's market, even homes priced at 3x income are often out of reach for many families due to the rapid increase in home values. This chart highlights the significant gap between what families can afford and current market prices, especially for Black households in Charlottesville.")
+   st.info("Note: Insufficient data is available to calculate the median income for households of other races.")
    
    st.markdown("---")
    
@@ -775,7 +763,7 @@ if data:
    st.markdown("""
    ### The Changing Face of Property Ownership
    
-   As housing becomes an investment commodity, we need to ask: who actually owns the city? The answer might surprise you.
+   As housing becomes an investment commodity, we need to ask: who actually owns the city?
    """)
    
    # Load and process the parcel boundary data
@@ -804,11 +792,11 @@ if data:
    with col1:
        st.metric("Total Properties", f"{total_parcels:,}")
    with col2:
-       st.metric("Local Ownership", f"{local_pct:.1f}%", f"{local_parcels:,} properties")
+       st.metric("Local Ownership", f"{local_pct:.1f}%")
    with col3:
-       st.metric("Non-Local Ownership", f"{100-local_pct:.1f}%", f"{non_local_parcels:,} properties")
+       st.metric("Non-Local Ownership", f"{100-local_pct:.1f}%")
    with col4:
-       st.metric("Non-Local Land Control", f"{100-local_land_pct:.1f}%", f"{non_local_land_area/43560:.0f} acres")
+       st.metric("Non-Local Land Control", f"{100-local_land_pct:.1f}%")
    
    # Top Property Owners Analysis
    st.subheader("Who Are The Biggest Property Owners?")
@@ -852,11 +840,11 @@ if data:
            display_columns.append('FormattedAssessment')
        
        display_df = top_owners[display_columns].copy()
-       display_df.columns = ['Owner Name', 'Properties', 'Total Assessment Value'] + (['Total Assessment Value'] if len(display_columns) > 3 else [])
+       display_df.columns = ['Owner Name', 'Number of Properties', 'Total Assessment Value'] + (['Total Assessment Value'] if len(display_columns) > 3 else [])
        
        # Use expander for the table
        with st.expander("Property Owners Table", expanded=True):
-           st.dataframe(display_df, use_container_width=True, height=None)
+           st.dataframe(display_df, use_container_width=True, height=None, hide_index=True)
        
        # Get top 10 for charts
        top_10_owners = top_owners.head(10)
@@ -981,7 +969,7 @@ if data:
                bgcolor="rgba(255,255,255,0.9)",
                bordercolor="rgba(0,0,0,0)",
                borderwidth=0,
-               font=dict(size=12, color="gray"),
+               font=dict(size=14, color="gray"),
                align="center"
            )
            
@@ -1060,7 +1048,6 @@ if data:
    - UVA is the largest single property owner by assessed value, controlling more than all other major owners combined.
    - The City of Charlottesville owns more properties by number and land size, but the university dwarfs top property owners by assessed value.
    
-   **This isn't just about numbers - it's about our community's future and who gets to call Charlottesville home.**
 
    """)
    st.info("Note: Sales below $10,000 excluded as non-market transactions (family transfers, estates, etc.) to reflect actual housing market prices.")
