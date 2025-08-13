@@ -364,12 +364,20 @@ if data:
            showgrid=True,
            gridcolor='lightgray'
        ),
-       xaxis_title='Year',
        hovermode='x unified',
        height=600,
        showlegend=True,
-       font=dict(color='#6c757d')
-   )
+    legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=-0.2,
+        xanchor="center",
+        x=0.5,
+        font=dict(size=9)
+    ),
+    font=dict(color='#6c757d', size=10),
+    margin=dict(l=50, r=30, t=60, b=80)
+    )
    st.plotly_chart(fig_afford, use_container_width=True)
    
    # Assessment Values Over Time
@@ -447,11 +455,19 @@ if data:
         showgrid=True,
         gridcolor='lightgray'
     ),
-    xaxis_title='Year',
     hovermode='x unified',
     height=500,
     showlegend=True,
-    font=dict(color='#6c757d')
+    legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=-0.2,
+        xanchor="center",
+        x=0.5,
+        font=dict(size=9)
+    ),
+    font=dict(color='#6c757d', size=10),
+    margin=dict(l=50, r=30, t=60, b=80)
     )
 
    st.plotly_chart(fig_assessment, use_container_width=True)
@@ -555,11 +571,19 @@ if data:
            font=dict(color='#1f77b4', size=20)
        ),
        yaxis_title='Number of Sales',
-       xaxis_title='Year',
        hovermode='x unified',
        height=500,
        showlegend=True,
-       font=dict(color='#6c757d')
+    legend=dict(
+        orientation="h",
+        yanchor="bottom",
+        y=-0.2,
+        xanchor="center",
+        x=0.5,
+        font=dict(size=9)
+    ),
+    font=dict(color='#6c757d', size=10),
+    margin=dict(l=50, r=30, t=60, b=80)
    )
    st.plotly_chart(fig_sales, use_container_width=True)
    
@@ -629,7 +653,7 @@ if data:
     bgcolor="rgba(255,255,255,0.9)",
     bordercolor="gray",
     borderwidth=0,
-    font=dict(size=14, color="gray"),
+    font=dict(size=11, color="gray"),
     align="left"
    )
 
@@ -649,7 +673,7 @@ if data:
     bgcolor="rgba(255,255,255,0.9)",
     bordercolor="gray",
     borderwidth=0,
-    font=dict(size=14, color="gray"),
+    font=dict(size=11, color="gray"),
     align="left"
     )
    
@@ -661,15 +685,13 @@ if data:
        ),
        xaxis_title='Household Race',
        yaxis=dict(
-           title='Annual Income ($)',
            side='left',
-           range=[0, 600000]
+           range=[0, 550000]
        ),
        yaxis2=dict(
-           title='Affordable Home Price ($)',
            side='right',
            overlaying='y',
-           range=[0, 600000]
+           range=[0, 550000]
        ),
        height=700,  
        showlegend=True,
@@ -855,15 +877,18 @@ if data:
                x='TotalProperties',
                y='OwnerName',
                title='Top 10 Owners by Number of Properties',
-               labels={'OwnerName': 'Owner Name', 'TotalProperties': 'Number of Properties'},
+               labels={'OwnerName': '', 'TotalProperties': ''},
                text='TotalProperties',
                color='TotalProperties',
                color_continuous_scale='Blues',
+                text_auto=True,
+
                orientation='h'
          )
        fig_top_owners.update_layout(
                yaxis={'categoryorder': 'total ascending'},
-               height=500
+               height=500,
+               
         )
        st.plotly_chart(fig_top_owners, use_container_width=True)
        
@@ -934,7 +959,7 @@ if data:
            fig_assessment.update_layout(
                title=dict(
                    text= "Because the number of properties does not always reflect the value of the property, let's see the top 10 property owners by property value.",
-                   font=dict(color='#1f77b4', size=20)
+                   font=dict(color='#1f77b4', size=16)
                ),
                xaxis_title='Total Assessment Value',
                yaxis_title='',
@@ -951,7 +976,7 @@ if data:
                barmode='overlay'
            )
            
-           # Add annotation with properly formatted values
+           # Add annotation 
            top_owner_value = assessment_data.iloc[-1]['TotalAssessment']
            top_owner_formatted = format_value(top_owner_value)
            
@@ -969,7 +994,7 @@ if data:
                bgcolor="rgba(255,255,255,0.9)",
                bordercolor="rgba(0,0,0,0)",
                borderwidth=0,
-               font=dict(size=14, color="gray"),
+               font=dict(size=11, color="gray"),
                align="center"
            )
            
@@ -993,14 +1018,23 @@ if data:
        
        fig = px.pie(ownership_data, values='Count', names='Type', 
                    title='Local vs Non-Local Ownership',
-                   color_discrete_map={'Local': '#2E8B57', 'Non-Local': '#DC143C'})
+                   color ={'Local': '#1f77b4', 'Non-Local': 'gray'},)
        
        fig.update_layout(
            height=400,
            width=400,
            showlegend=True,
-           legend=dict(orientation="v", yanchor="top", y=1, xanchor="left", x=1.05)
-       )
+           legend=dict(
+           orientation="h",
+           yanchor="bottom",
+           y=-0.25,
+           xanchor="center",
+           x=0.5,
+           font=dict(size=9)
+       ),
+       font=dict(color='#6c757d', size=10),
+       margin=dict(l=50, r=30, t=60, b=100)
+   )
        st.plotly_chart(fig, use_container_width=False)
    
    with note_col:
