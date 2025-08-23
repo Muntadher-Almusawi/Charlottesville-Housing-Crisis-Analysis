@@ -94,8 +94,8 @@ st.markdown("""
 # Title
 st.title("Charlottesville Housing Crisis Analysis")
 st.markdown("Understanding the City of Charlottesville's Affordable Housing Crisis")
-st.markdown("**Introduction:** Since I moved to Charlottesville in 2024 I kept hearing about the housing crisis and its effect on the community. I wanted to understand the data behind these claims and see how the housing market has changed over time. I also wanted to see who the largest property owners are in the city and how their ownership is contributing to the housing crisis. I decided to create this dashboard to visualize the data and tell the story of how the housing market has changed in Charlottesville. I hope this dashboard will help raise awareness about the housing crisis and spark discussions about possible solutions.")
-st.info("Note: the metrics included here are for the City of Charlottesville only, and do not include data points from Albemarle County.")
+st.markdown("**Introduction:** Since moving to Charlottesville in 2024, I've heared about the housing crisis and its effects on the community. I wanted to understand the data behind these claims, and see how the housing market has changed over time. I also wanted to see who the largest property owners are in the city and how their ownership is contributing to the housing crisis. I created this dashboard to visualize this data and tell the story of how the housing market has changed in Charlottesville. I hope this dashboard will help raise awareness about the housing crisis and spark discussions about possible solutions.")
+st.info("Note: The metrics included here are for the City of Charlottesville only, and do not include data points from Albemarle County.")
 st.markdown("Data sources: City of Charlottesville Open Data Portal")
 st.markdown("Data Last updated: July 2024")
 
@@ -180,7 +180,7 @@ if data:
    st.markdown("""
    ### A Community Transformed
    Let's explore how this happened, starting with the numbers that tell our story...
-   The median property value in Charlottesville was \$**460,000** in **2023**, which is **1.5** times larger than the national average of \$**303,400**. Between **2021** and **2024** the median property value increased from \$**395,000** to \$**525,000**, a **32.9%** increase. The homeownership rate in Charlottesville, VA is **43.7%**, which is lower than the national average of **65%**.
+   The median property value in Charlottesville was \$**460,000** in **2023**, which is **1.5** times larger than the national average of \$**303,400**. Between **2021** and **2024**, the median property value increased from \$**395,000** to \$**525,000**, a **32.9%** increase. The homeownership rate in Charlottesville, VA, is **43.7%**, which is lower than the national average of **65%**.
    """)
    
    # Price increase narrative
@@ -477,7 +477,7 @@ if data:
    ### 📊 What These Charts Tell Us
 
    **Why Look at Multiple Metrics?**  
-     Both charts reveal a consistent story: whether you examine actual sales prices or the city's annual property assessments, home values have skyrocketed especially after COVID-19.
+     Both charts reveal a consistent story: whether you examine actual sales prices or the city's annual property assessments, home values have skyrocketed, especially after COVID-19.
 
    **The Numbers Don't Lie:**
    - **Sales prices** increased by **41%** (median) from 2020 to 2024
@@ -488,10 +488,10 @@ if data:
    
     The **median** provides a more accurate picture of what a typical home costs because it's not skewed by extreme values. When a few luxury mansions sell for millions or distressed properties sell far below market, the average gets pulled up or down dramatically that's why you see the average line jumping around more than the median.
 
-   The **75th percentile** shows us the upper-middle range of the market these aren't the most expensive homes, but they represent properties that are increasingly out of reach for most families.
+   The **75th percentile** shows us the upper-middle range of the market. Although these homes are not the most expensive, they represent properties that are becoming increasingly out of reach for most families.
 
    **The Bottom Line:**
-   No matter which metric you examine median sales, average sales, or city assessments they all point to the same troubling reality: home values are rising far faster than incomes, making homeownership increasingly impossible for local families.
+   No matter which metric you examine— median sales, average sales, or city assessments— they all point to the same troubling reality: home values are rising much faster than incomes, making homeownership increasingly impossible for local families.
    """)
    
    # Sales Activity by Year
@@ -593,7 +593,7 @@ if data:
    st.subheader("The Reality of Income Inequality and Housing Access")
 
    st.markdown("""
-   Based on the latest data from the U.S. Census Bureau 2023, the median household income in Charlottesville for Black households is \$**36,541** and the median household income for White households is \$**86,259**. While housing affordability is a challenge for all households in Charlottesville, the income disparity between Black and white households creates significantly greater barriers to homeownership for Black households.
+   Based on the latest data from the U.S. Census Bureau 2023, the median household income in Charlottesville for Black households is \$**36,541** and the median household income for white households is \$**86,259**. While housing affordability is a challenge for all households in Charlottesville, the income disparity between Black and white households creates significantly greater barriers to homeownership for Black households.
    """)
 
    #  income disparity data
@@ -615,7 +615,7 @@ if data:
      name='Affordable Home Price (3x Income)',
      marker_color=["#1f77b4", '#1f77b4'],
      text=['Based on their median income, <br> Black households can afford homes priced <br> up to $109,641',
-           'Based on their median income, <br> White households can afford homes priced <br> up to $258,777'],
+           'Based on their median income, <br> white households can afford homes priced <br> up to $258,777'],
      textposition='inside',
      textfont=dict(color='white', size=14),
      yaxis='y2',
@@ -1072,19 +1072,19 @@ if data:
    - Only {affordable_pct:.1f}% of recent home sales are affordable to median-income families
    - The gap between what people earn and what homes cost keeps growing
    - The median home price increased by **{recent_increase:.0f}%** from 2020 to 2024 alone, making it impossible for many families to buy a home
-   - Housing crisis involves everyone, but especially impacts Black families who face a much larger affordability gap
+   - The housing crisis involves everyone, but especially impacts Black families who face a much larger affordability gap
    
    **Who Controls the City:**
    - **{local_pct:.1f}%** of properties are owned by Charlottesville residents
    - **{100-local_pct:.1f}%** are owned by non-local investors, landlords, or institutions
    - Non-local owners control **{100-local_land_pct:.1f}%** of the total land area
    - That's approximately **{non_local_land_area/43560:.0f} acres** controlled by outsiders
-   - UVA is the largest single property owner by assessed value, controlling more than all other major owners combined.
-   - The City of Charlottesville owns more properties by number and land size, but the university dwarfs top property owners by assessed value.
+   - UVA is the largest single property owner by assessed value, controlling more than all other major owners combined
+   - The City of Charlottesville owns more properties by number and land size, but the university dwarfs top property owners by assessed value
    
 
    """)
-   st.info("Note: Sales below $10,000 excluded as non-market transactions (family transfers, estates, etc.) to reflect actual housing market prices.")
+   st.info("Note: Sales below $10,000 are excluded as non-market transactions (family transfers, estates, etc.) to reflect actual housing market prices.")
 
 else:
    st.error("Unable to load data. Please check file paths and try again.")
