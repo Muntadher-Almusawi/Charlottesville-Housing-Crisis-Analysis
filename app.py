@@ -649,7 +649,7 @@ if data:
     arrowwidth=2,
     arrowcolor="gray",
     
-    ax=50,   
+    ax=-50,   
     ay=-220,    
     bgcolor="rgba(255,255,255,0.9)",
     bordercolor="gray",
