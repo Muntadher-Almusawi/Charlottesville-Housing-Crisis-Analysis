@@ -866,7 +866,7 @@ if data:
        
        # Use expander for the table
        with st.expander("Property Owners Table", expanded=True):
-           st.dataframe(display_df, use_container_width=True, height=None, hide_index=True)
+           st.dataframe(display_df, use_container_width=True, hide_index=True)
        
        # Get top 10 for charts
        top_10_owners = top_owners.head(10)
