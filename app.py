@@ -618,6 +618,7 @@ if data:
            'Based on their median income, <br> white households can afford homes priced <br> up to $258,777'],
      textposition='inside',
      textfont=dict(color='white', size=14),
+     insidetextanchor='middle',
      yaxis='y2',
      opacity=0.7
     ))
@@ -639,13 +640,13 @@ if data:
 
  #  annotation for Black families 
    fig_income.add_annotation(
-    x=-0.3,  
+    x=-0.15,  
     y=130000,  
     text="<b>Black Households:</b><br> With a median household income of $36,541 in 2023, <br> the average Black household would need their income to increase <br> over 4x to afford Charlottesville's median home price.",
     showarrow=True,
     arrowhead=2,
     arrowsize=1.5,
-    arrowwidth=3,
+    arrowwidth=2,
     arrowcolor="gray",
     
     ax=50,   
@@ -665,10 +666,10 @@ if data:
     showarrow=True,
     arrowhead=2,
     arrowsize=1.5,
-    arrowwidth=3,
+    arrowwidth=2,
     arrowcolor="gray",
     
-    ax=100,  
+    ax=50,  
     ay=-130,    
     bgcolor="rgba(255,255,255,0.9)",
     bordercolor="gray",
